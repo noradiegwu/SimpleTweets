@@ -6,6 +6,8 @@
     <string name="title_activity">Home Timeline</string>
     <string name="action_settings">Settings</string>
     <string name="profile">Profile</string>
+    <string name="image_screen_name_key">Screen Name Tag</string>
+    <string name="compose_tweet">Compose</string>
 
 
 </resources>
