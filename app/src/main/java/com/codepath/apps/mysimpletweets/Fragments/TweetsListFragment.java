@@ -23,10 +23,6 @@ public class TweetsListFragment extends Fragment {
     private ListView lvTweets;
 
 
-
-
-
-
     // inflation logic
     @Nullable
     @Override
@@ -48,10 +44,14 @@ public class TweetsListFragment extends Fragment {
         tweets = new ArrayList<>();
         // construct the adapter from the data source
         aTweets = new TweetsArrayAdapter(getActivity(), tweets);
-
     }
 
     public void addAll(List<Tweet> tweets) {
         aTweets.addAll(tweets);
+    }
+
+    public void addTweetToAdapter(Tweet tweet) {
+        tweets.add(0, tweet);
+        aTweets.notifyDataSetChanged();
     }
 }

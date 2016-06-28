@@ -13,21 +13,34 @@ import android.view.MenuItem;
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.mysimpletweets.Fragments.HomeTimelineFragment;
 import com.codepath.apps.mysimpletweets.Fragments.MentionsTimelineFragment;
+import com.codepath.apps.mysimpletweets.models.Tweet;
+
+import org.parceler.Parcels;
 
 public class TimelineActivity extends AppCompatActivity {
 
+    HomeTimelineFragment homeTimelineFragment;
+    MentionsTimelineFragment mentionsTimelineFragment;
+    int COMPOSE_REQUEST_CODE = 1001;
+    PagerSlidingTabStrip tabStrip;
+    ViewPager viewPager;
+    Tweet tweet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
+        //Fragments
+        homeTimelineFragment = new HomeTimelineFragment();
+        mentionsTimelineFragment = new MentionsTimelineFragment();
+
         // Get the viewpager
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         // Set the viewpager adapter for the pager
         viewPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager()));
         // Find the pager sliding tabstrip
-        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+         tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         // Attach tabstrip and viewpager
         tabStrip.setViewPager(viewPager);
 
@@ -54,6 +67,27 @@ public class TimelineActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void onComposeView(MenuItem item) {
+        // launch tweet edit activity
+        Intent i = new Intent(this, ComposeActivity.class);
+        startActivityForResult(i, COMPOSE_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //  inject the created tweet directly into the adapter for the timeline
+        if (requestCode == COMPOSE_REQUEST_CODE) {
+            // get the tweet
+            tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
+            // send tweet to timeline fragment to add to adapter
+            //get hometimeline fragment and call addTweet
+            // pass to fragment
+            homeTimelineFragment.addNewTweet(tweet);
+            }
+        }
+
+
     // Return the order of the fragments int the view pager
     public class TweetsPagerAdapter extends FragmentPagerAdapter {
         private String tabTitles[] = {"Home", "Mentions"};
@@ -67,9 +101,9 @@ public class TimelineActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new HomeTimelineFragment();
+                return homeTimelineFragment;
             } else if (position == 1) {
-                return new MentionsTimelineFragment();
+                return mentionsTimelineFragment;
             } else {
                 return null;
             }

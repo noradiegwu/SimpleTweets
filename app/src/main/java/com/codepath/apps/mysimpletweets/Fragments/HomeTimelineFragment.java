@@ -15,8 +15,10 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 public class HomeTimelineFragment extends TweetsListFragment {
+
     private TwitterClient client;
 
+   // private Tweet tweet;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +26,18 @@ public class HomeTimelineFragment extends TweetsListFragment {
         // get client
         client = TwitterApplication.getRestClient(); //singleton client
         populateTimeline();
+    }
+
+
+    // add tweet to home timeline
+    /*
+    addNewTweet
+    adds to the beginning of the array
+    notifies data set changed
+    */
+    public void addNewTweet(Tweet tweet) {
+        // tweet = timelineActivity.getMyNewTweet(); // gets the tweet passed from the compose activity to the timeline activity
+        addTweetToAdapter(tweet);
     }
 
     // Send an API request to get the timeline
@@ -44,4 +58,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
             }
         });
     }
+
+
+
 }

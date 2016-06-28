@@ -9,11 +9,13 @@ package com.codepath.apps.mysimpletweets.models;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 
 //parse the JSON and store the data
 // Encapsalate state logic or display logic
+@Parcel
 public class Tweet {
     // List out the attributes
     private String body;
@@ -38,7 +40,7 @@ public class Tweet {
         return uid;
     }
 
-
+    public Tweet() {}
 
     // Deerialize the json
     // Tweet.fromJSON("{...}") => <Tweet>
@@ -54,6 +56,15 @@ public class Tweet {
             e.printStackTrace();
         }
         // Return the tweet object
+        return tweet;
+    }
+
+    public static Tweet fromStatus(String status) {
+        Tweet tweet = new Tweet();
+        tweet.body = status;
+        //tweet.uid = ...
+        //tweet.createdAt = ...
+        //tweet.user = ...
         return tweet;
     }
 

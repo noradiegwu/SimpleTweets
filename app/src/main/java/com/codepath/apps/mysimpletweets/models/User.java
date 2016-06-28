@@ -3,7 +3,9 @@ package com.codepath.apps.mysimpletweets.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
+@Parcel
 public class User {
     /*
     "user": {
@@ -54,6 +56,8 @@ public class User {
     public int getFollowersCount() {
         return followersCount;
     }
+
+    public User() {}
 
     // deserialize into user
     public static User fromJSON(JSONObject json) {

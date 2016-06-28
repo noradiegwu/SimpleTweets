@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.scribe.builder.api.Api;
@@ -80,6 +81,14 @@ public class TwitterClient extends OAuthBaseClient {
     }
 
 	//COMPOSE TWEET METHOD
+    // a "tweet" is a status
+    public void updateStatus(String status, JsonHttpResponseHandler handler) {
+        String apiurl = getApiUrl("statuses/update.json");
+        RequestParams params = new RequestParams();
+        params.put("status", status);
+        //execute request
+        getClient().post(apiurl, params, handler);
+    }
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
 	 * 	  i.e getApiUrl("statuses/home_timeline.json");
@@ -89,4 +98,6 @@ public class TwitterClient extends OAuthBaseClient {
 	 *    i.e client.get(apiUrl, params, handler);
 	 *    i.e client.post(apiUrl, params, handler);
 	 */
+
+
 }
