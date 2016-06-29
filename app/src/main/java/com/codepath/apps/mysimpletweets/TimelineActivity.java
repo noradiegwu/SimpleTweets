@@ -64,6 +64,7 @@ public class TimelineActivity extends AppCompatActivity {
     public void onProfileView(MenuItem mi) {
         // launch profile view
         Intent i = new Intent(this, ProfileActivity.class);
+        i.putExtra("myIntent", ProfileActivity.PROFILE_INTENT);
         startActivity(i);
     }
 

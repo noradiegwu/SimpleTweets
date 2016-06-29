@@ -44,7 +44,6 @@ public class User {
         return uid;
     }
 
-
     public String getTagline() {
         return tagline;
     }

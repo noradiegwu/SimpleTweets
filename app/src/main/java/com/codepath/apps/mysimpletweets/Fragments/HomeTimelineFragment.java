@@ -30,14 +30,12 @@ public class HomeTimelineFragment extends TweetsListFragment {
 
 
     // add tweet to home timeline
-    /*
-    addNewTweet
-    adds to the beginning of the array
-    notifies data set changed
-    */
+
     public void addNewTweet(Tweet tweet) {
-        // tweet = timelineActivity.getMyNewTweet(); // gets the tweet passed from the compose activity to the timeline activity
+        //adds to the beginning of the array
+        //notifies data set changed
         addTweetToAdapter(tweet);
+
     }
 
     // Send an API request to get the timeline

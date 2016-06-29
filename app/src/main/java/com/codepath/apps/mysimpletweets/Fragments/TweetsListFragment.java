@@ -35,6 +35,13 @@ public class TweetsListFragment extends Fragment {
         return view;
     }
 
+/*    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // find the list view
+        lvTweets = (ListView) view.findViewById(R.id.lvTweets);
+        // connect adapter to listview
+        lvTweets.setAdapter(aTweets);
+    }*/
 
     //creation lifecycle event
     @Override
