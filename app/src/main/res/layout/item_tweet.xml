@@ -20,7 +20,8 @@
         android:id="@+id/tvUserName"
         android:layout_alignTop="@+id/ivProfileImage"
         android:layout_toRightOf="@+id/ivProfileImage"
-        android:layout_toEndOf="@+id/ivProfileImage" />
+        android:layout_toEndOf="@+id/ivProfileImage"
+        android:paddingTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,5 +30,19 @@
         android:id="@+id/tvBody"
         android:layout_toRightOf="@+id/ivProfileImage"
         android:layout_toEndOf="@+id/ivProfileImage"
-        android:layout_alignBottom="@+id/ivProfileImage"/>
+        android:layout_below="@+id/tvUserName"
+        android:paddingBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="1h"
+        android:id="@+id/tvTimeAgo"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+        android:textAlignment="gravity"
+        android:padding="10dp" />
 </RelativeLayout>

@@ -8,6 +8,10 @@
     <string name="profile">Profile</string>
     <string name="image_screen_name_key">Screen Name Tag</string>
     <string name="compose_tweet">Compose</string>
+    <string name="followers">" Followers"</string>
+    <string name="following">" Following"</string>
+    <string name="user">User</string>
+    <string name="uid">Uid</string>
 
 
 </resources>
