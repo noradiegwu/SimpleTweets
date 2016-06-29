@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.codepath.apps.mysimpletweets.ComposeActivity">
+    tools:context=".Activities.ComposeActivity">
 
     <EditText
         android:layout_width="match_parent"
@@ -26,4 +26,14 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:onClick="onClickPost" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="140"
+        android:id="@+id/tvCharacterCount"
+        android:padding="5dp"
+        android:layout_above="@+id/etTweet"
+        android:layout_alignRight="@+id/etTweet"
+        android:layout_alignEnd="@+id/etTweet" />
 </RelativeLayout>
