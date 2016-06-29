@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.codepath.apps.mysimpletweets.Activities.ComposeActivity;
 import com.codepath.apps.mysimpletweets.Activities.ProfileActivity;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.squareup.picasso.Picasso;
@@ -46,7 +47,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
         // 3. find subviews to fill with data
         final ImageView ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
-        ImageView ivReply = (ImageView) convertView.findViewById(R.id.ivReply);
+        final ImageView ivReply = (ImageView) convertView.findViewById(R.id.ivReply);
         TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
         TextView tvBody = (TextView) convertView.findViewById(R.id.tvBody);
         TextView tvTimeAgo = (TextView) convertView.findViewById(R.id.tvTimeAgo);
@@ -59,10 +60,13 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
         Picasso.with(getContext()).load(R.drawable.ic_reply).into(ivReply);
 
-        // 5. store user screen name in tag for access in profile activity and set onItemClickListener
+        // 5. store user info in tag for access in profile activity and set onItemClickListener
         ivProfileImage.setTag(R.string.image_screen_name_key, (tweet.getUser().getScreenName())); // tag holds an identifying id number and the user screen nam
         ivProfileImage.setTag(R.string.user, (tweet.getUser())); // send the user of this tweet
         ivProfileImage.setTag(R.string.uid, tweet.getUser().getUid()); // get the user id
+        // 5. cont. set tag on reply button
+        ivReply.setTag(R.string.user_from_reply, tweet.getUser().getScreenName());
+
 
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +86,20 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         });
 
         ivReply.setOnClickListener(new View.OnClickListener() {
-            //TODO: Reply w/ automatic @user
+            @Override
+            public void onClick(View v) {
+                //TODO: Reply w/ automatic @user
+                Intent i = new Intent(context, ComposeActivity.class);
+                // pass in the user screen name
+                // TODO: Consider also adding in reply to if != null
+                    // KEY --> "in_reply_to_user_id_str"
+                i.putExtra("user", ("@" + ivReply.getTag(R.string.user_from_reply).toString()));
+                // either:
+                    // add new activity that automatically draws the user and puts their @ in the text
+                // or:
+                    // use current activity and pull user in and add their @
+            }
+
         });
         // 6. return the view to be inserted into the list
         return convertView;
