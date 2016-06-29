@@ -1,4 +1,4 @@
-package com.codepath.apps.mysimpletweets;
+package com.codepath.apps.mysimpletweets.Activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -7,6 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.apps.mysimpletweets.Fragments.UserTimelineFragment;
+import com.codepath.apps.mysimpletweets.R;
+import com.codepath.apps.mysimpletweets.TwitterApplication;
+import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.codepath.apps.mysimpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
@@ -20,7 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     public static int PROFILE_INTENT = 5005;
     public static int IMAGE_INTENT = 6006;
     TwitterClient client;
-    String screenName;
+    public String screenName;
     int myIntent;
     User user;
 

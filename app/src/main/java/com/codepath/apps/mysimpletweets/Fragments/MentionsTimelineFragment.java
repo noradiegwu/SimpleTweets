@@ -2,6 +2,8 @@ package com.codepath.apps.mysimpletweets.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
@@ -41,6 +43,31 @@ public class MentionsTimelineFragment extends TweetsListFragment {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("DEBUG", "Fetch timeline error: " + String.valueOf(statusCode));
+                // 429 is too many requests!!
+            }
+        });
+    }
+
+    protected void fetchTimelineAsync() {
+        Toast.makeText(getContext(), "you refreshed mentions!", Toast.LENGTH_SHORT).show();
+        // Send the network request to fetch the updated data
+        // `client` here is an instance of Android Async HTTP
+        // if i am refreshing in mentions timeline,
+        client.getMentionsTimeline(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
+                // Remember to CLEAR OUT old items before appending in the new ones
+                aTweets.clear();
+                // ...the data has come back, add new items to your adapter...
+                addAll(Tweet.fromJSONArray(json));
+                // Now we call setRefreshing(false) to signal refresh has finished
+                swipeContainer.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d("DEBUG", "Fetch timeline error: " + String.valueOf(statusCode));
             }
         });
     }

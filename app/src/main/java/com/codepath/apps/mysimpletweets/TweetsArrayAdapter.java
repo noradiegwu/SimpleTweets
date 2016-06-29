@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.codepath.apps.mysimpletweets.Activities.ProfileActivity;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.squareup.picasso.Picasso;
 
@@ -36,7 +37,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // 1. get the tweet
-        Tweet tweet = getItem(position);
+        final Tweet tweet = getItem(position);
 
         // 2. find or inflate the template
         if (convertView == null) {
@@ -45,6 +46,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
         // 3. find subviews to fill with data
         final ImageView ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
+        ImageView ivReply = (ImageView) convertView.findViewById(R.id.ivReply);
         TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
         TextView tvBody = (TextView) convertView.findViewById(R.id.tvBody);
         TextView tvTimeAgo = (TextView) convertView.findViewById(R.id.tvTimeAgo);
@@ -55,6 +57,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         tvTimeAgo.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
         ivProfileImage.setImageResource(android.R.color.transparent); // clear out the image for a recycled view
         Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
+        Picasso.with(getContext()).load(R.drawable.ic_reply).into(ivReply);
 
         // 5. store user screen name in tag for access in profile activity and set onItemClickListener
         ivProfileImage.setTag(R.string.image_screen_name_key, (tweet.getUser().getScreenName())); // tag holds an identifying id number and the user screen nam
@@ -76,6 +79,10 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
                 // start activity
                 context.startActivity(i);
             }
+        });
+
+        ivReply.setOnClickListener(new View.OnClickListener() {
+            //TODO: Reply w/ automatic @user
         });
         // 6. return the view to be inserted into the list
         return convertView;
@@ -100,8 +107,14 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
         if (relativeDate.contains(" seconds ago")) {
             relativeDate = relativeDate.replace(" seconds ago", "s");
-        } else if (relativeDate.contains(" minutes ago")) {
+        } else if (relativeDate.contains(" second ago")) {
+            relativeDate = relativeDate.replace(" second ago", "s");
+        } else if (relativeDate.contains(" minute ago")) {
+            relativeDate = relativeDate.replace(" minute ago", "m");
+        }else if (relativeDate.contains(" minutes ago")) {
             relativeDate = relativeDate.replace(" minutes ago", "m");
+        } else if (relativeDate.contains(" hour ago")) {
+            relativeDate = relativeDate.replace(" hour ago", "h");
         } else if (relativeDate.contains(" hours ago")) {
             relativeDate = relativeDate.replace(" hours ago", "h");
         }

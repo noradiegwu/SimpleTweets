@@ -1,4 +1,4 @@
-package com.codepath.apps.mysimpletweets;
+package com.codepath.apps.mysimpletweets.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.mysimpletweets.Fragments.HomeTimelineFragment;
 import com.codepath.apps.mysimpletweets.Fragments.MentionsTimelineFragment;
+import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 
 import org.parceler.Parcels;
@@ -79,12 +80,14 @@ public class TimelineActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         //  inject the created tweet directly into the adapter for the timeline
         if (requestCode == COMPOSE_REQUEST_CODE) {
-            // get the tweet
-            tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
-            // send tweet to timeline fragment to add to adapter
-            //get hometimeline fragment and call addTweet
-            // pass to fragment
-            homeTimelineFragment.addNewTweet(tweet);
+            if (resultCode == RESULT_OK) {
+                // get the tweet
+                tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
+                // send tweet to timeline fragment to add to adapter
+                //get hometimeline fragment and call addTweet
+                // pass to fragment
+                homeTimelineFragment.addNewTweet(tweet);
+            }
             }
         }
 
