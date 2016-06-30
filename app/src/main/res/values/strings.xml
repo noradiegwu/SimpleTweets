@@ -12,7 +12,7 @@
     <string name="following">" Following"</string>
     <string name="user">User</string>
     <string name="uid">Uid</string>
-    <string name="user_from_reply">User From Reply</string>
+    <string name="user_to_reply_to">User to reply to</string>
 
 
 </resources>
