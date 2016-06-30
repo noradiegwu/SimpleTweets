@@ -19,14 +19,14 @@ import java.util.ArrayList;
 public class Tweet {
     // List out the attributes
     private String body;
+    private String createdAt;
+    private long inReplyTo;
     private long uid; // unique id for the tweet
     private User user; // store embedded user object
-    private String createdAt;
 
 
-    public User getUser() {
-        return user;
-    }
+
+    public User getUser() { return user; }
 
     public String getBody() {
         return body;
@@ -52,6 +52,7 @@ public class Tweet {
             tweet.uid = jsonObject.getLong("id");
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
+            tweet.inReplyTo = jsonObject.getLong("in_reply_to_user_id");
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -27,7 +27,10 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 public class ComposeActivity extends AppCompatActivity {
-
+    public static int REPLY_CODE = 2002;
+    public static int COMPOSE_CODE = 3003;
+    static int TXT_LIMIT = 140;
+    String replyToUser = "";
     TweetsArrayAdapter adapter;
     TextView tvCharacterCount;
     ArrayList<Tweet> tweets;
@@ -35,6 +38,7 @@ public class ComposeActivity extends AppCompatActivity {
     int characterCount;
     EditText etTweet;
     Button btnTweet;
+    int myIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +49,18 @@ public class ComposeActivity extends AppCompatActivity {
         btnTweet = (Button) findViewById(R.id.btnTweet);
         client = TwitterApplication.getRestClient();
 
+        myIntent = getIntent().getIntExtra("myIntent", 0);
+        if (myIntent == REPLY_CODE) {
+            replyToUser = getIntent().getStringExtra("user_to_reply_to");
+            etTweet.setText(replyToUser);
+            //tvCharacterCount.setText(TXT_LIMIT - replyToUser.length());
+        }
+
         etTweet.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Fires right as the text is being changed (even supplies the range of text)
-                characterCount = 140 - s.length();
+                characterCount = TXT_LIMIT - s.length();
                 // can't deal with/catch auto complete!
 
             }

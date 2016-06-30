@@ -72,6 +72,7 @@ public class TimelineActivity extends AppCompatActivity {
     public void onComposeView(MenuItem item) {
         // launch tweet edit activity
         Intent i = new Intent(this, ComposeActivity.class);
+        i.putExtra("myIntent", ComposeActivity.COMPOSE_CODE); // can the below # replace this fxnality
         startActivityForResult(i, COMPOSE_REQUEST_CODE);
     }
 

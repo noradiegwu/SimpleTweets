@@ -65,7 +65,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         ivProfileImage.setTag(R.string.user, (tweet.getUser())); // send the user of this tweet
         ivProfileImage.setTag(R.string.uid, tweet.getUser().getUid()); // get the user id
         // 5. cont. set tag on reply button
-        ivReply.setTag(R.string.user_from_reply, tweet.getUser().getScreenName());
+        ivReply.setTag(R.string.user_to_reply_to, tweet.getUser().getScreenName());
 
 
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
@@ -92,8 +92,11 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
                 Intent i = new Intent(context, ComposeActivity.class);
                 // pass in the user screen name
                 // TODO: Consider also adding in reply to if != null
-                    // KEY --> "in_reply_to_user_id_str"
-                i.putExtra("user", ("@" + ivReply.getTag(R.string.user_from_reply).toString()));
+                    // KEY --> "in_reply_to_user_id"
+                i.putExtra("user_to_reply_to", "@" + ivReply.getTag(R.string.user_to_reply_to).toString());
+                i.putExtra("myIntent", ComposeActivity.REPLY_CODE);
+                // start compose activity
+                context.startActivity(i);
                 // either:
                     // add new activity that automatically draws the user and puts their @ in the text
                 // or:
