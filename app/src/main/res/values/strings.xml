@@ -13,6 +13,11 @@
     <string name="user">User</string>
     <string name="uid">Uid</string>
     <string name="user_to_reply_to">User to reply to</string>
-
+    <string name="tweet_id">Tweet ID</string>
+    <string name="like_unlike_tweet_id">Favorite</string>
+    <string name="details_tweet">Get details</string>
+    <string name="retweets">RETWEETS</string>
+    <string name="likes">LIKES</string>
+    <string name="hashtag">#</string>
 
 </resources>
