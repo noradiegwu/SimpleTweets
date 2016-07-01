@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.mysimpletweets.Fragments.HomeTimelineFragment;
@@ -70,10 +71,10 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     public void onComposeView(MenuItem item) {
-        // launch tweet edit activity
+        /*// launch tweet edit activity
         Intent i = new Intent(this, ComposeActivity.class);
         i.putExtra("myIntent", ComposeActivity.COMPOSE_CODE); // can the below # replace this fxnality
-        startActivityForResult(i, COMPOSE_REQUEST_CODE);
+        startActivityForResult(i, COMPOSE_REQUEST_CODE);*/
     }
 
     @Override
@@ -100,6 +101,13 @@ public class TimelineActivity extends AppCompatActivity {
                 mentionsTimelineFragment.addNewTweet(tweet);
             }
         }*/
+    }
+
+    public void onComposeClick(View view) {
+        // launch tweet edit activity
+        Intent i = new Intent(this, ComposeActivity.class);
+        i.putExtra("myIntent", ComposeActivity.COMPOSE_CODE); // can the below # replace this fxnality
+        startActivityForResult(i, COMPOSE_REQUEST_CODE);
     }
 
 

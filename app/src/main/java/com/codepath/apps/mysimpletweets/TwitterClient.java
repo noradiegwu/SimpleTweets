@@ -145,6 +145,26 @@ public class TwitterClient extends OAuthBaseClient {
 	// RETWEEN COUNT METHOD
 		// TODO
 
+	public void followUser(long statusID, JsonHttpResponseHandler handler) {
+		// request url
+		String apiurl = getApiUrl("friendships/create/" + String.valueOf(statusID) + ".json");
+		// params
+		RequestParams params = new RequestParams();
+		params.put("id", statusID);
+		// execute request
+		getClient().post(apiurl, params, handler);
+	}
+
+    public void unfollowUser(long statusID, JsonHttpResponseHandler handler) {
+        // request url
+        String apiurl = getApiUrl("friendships/destroy/" + String.valueOf(statusID) + ".json");
+        // params
+        RequestParams params = new RequestParams();
+        params.put("id", statusID);
+        // execute request
+        getClient().post(apiurl, params, handler);
+    }
+
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
 	 * 	  i.e getApiUrl("statuses/home_timeline.json");
 	 * 2. Define the parameters to pass to the request (query or body)

@@ -75,10 +75,10 @@ public class Tweet {
             tweet.uid = jsonObject.getLong("id");
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
-            tweet.inReplyToUserID = jsonObject.getLong("in_reply_to_user_id");
-            tweet.favorited = jsonObject.getBoolean("favorited");
-            tweet.retweetsCount = jsonObject.getInt("retweet_count");
-            tweet.likesCount = jsonObject.getInt("favorites_count");
+            tweet.favorited = jsonObject.optBoolean("favorited");
+            tweet.inReplyToUserID = jsonObject.optLong("in_reply_to_user_id");
+            tweet.retweetsCount = jsonObject.optInt("retweet_count");
+            tweet.likesCount = jsonObject.optInt("favorites_count", 1000);
         } catch (JSONException e) {
             e.printStackTrace();
         }

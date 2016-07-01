@@ -2,6 +2,7 @@ package com.codepath.apps.mysimpletweets.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,8 @@ public class TweetDetailsActivity extends AppCompatActivity {
     private ImageView ivRetweet;
     private boolean isFaved;
     private TwitterClient client;
+    @ColorInt
+    public static int TWTRBLUE = 0xff55acee;
 
 
     @Override
@@ -54,6 +57,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
         // load views
         // TODO: set time and date according to twitter styling
         tvBody.setText(tweet.getBody());
+        tvBody.setLinkTextColor(TWTRBLUE);
         tvName.setText(tweet.getUser().getName());
         tvLikes.setText(String.valueOf(tweet.getLikesCount())); // both are 0, zero, zilch, zip, nada, jack shit
         tvRetweets.setText(String.valueOf(tweet.getRetweetsCount()));
