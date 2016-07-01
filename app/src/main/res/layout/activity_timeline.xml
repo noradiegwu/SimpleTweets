@@ -1,26 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/main_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Activities.TimelineActivity">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-
-    <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/tabs"
-        app:pstsShouldExpand="true"
-        app:pstsTextAllCaps="true"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="48dp" />
+        android:layout_height="match_parent"
+        android:id="@+id/rlTimeline"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".Activities.TimelineActivity">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_below="@+id/tabs"
+
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/tabs"
+            app:pstsShouldExpand="true"
+            app:pstsTextAllCaps="true"
             android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:pstsIndicatorColor="@color/twitter_blue"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_below="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/white" />
+            android:layout_gravity="bottom|right"
+            android:src="@drawable/ic_feather_fab"
+            app:backgroundTint="#55acee"
+            app:layout_anchor="@id/rlTimeline"
+            app:layout_anchorGravity="bottom|right|end"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:clickable="true"
+            android:onClick="onComposeClick"/>
 
 
+    </RelativeLayout>
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

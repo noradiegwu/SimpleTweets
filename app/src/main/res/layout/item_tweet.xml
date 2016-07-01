@@ -31,7 +31,9 @@
         android:layout_toRightOf="@+id/ivProfileImage"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:layout_below="@+id/tvUserName"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="10dp"
+        android:autoLink="all"
+        android:linksClickable="true" />
 
     <TextView
         android:layout_width="wrap_content"
