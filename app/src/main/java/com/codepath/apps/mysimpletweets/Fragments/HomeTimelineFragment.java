@@ -26,12 +26,12 @@ public class HomeTimelineFragment extends TweetsListFragment {
         // get client
         client = TwitterApplication.getRestClient(); //singleton client
         populateTimeline();
-
+        Log.d("FFFF", "LLLL");
     }
 
 
-    // add tweet to home timeline
 
+    // add tweet to home timeline
     public void addNewTweet(Tweet tweet) {
         //adds to the beginning of the array
         //notifies data set changed

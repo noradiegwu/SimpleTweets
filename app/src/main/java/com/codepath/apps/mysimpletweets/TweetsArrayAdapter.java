@@ -3,6 +3,7 @@ package com.codepath.apps.mysimpletweets;
 import android.content.Context;
 import android.content.Intent;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,12 @@ import android.widget.TextView;
 
 import com.codepath.apps.mysimpletweets.Activities.ComposeActivity;
 import com.codepath.apps.mysimpletweets.Activities.ProfileActivity;
+import com.codepath.apps.mysimpletweets.Activities.TweetDetailsActivity;
 import com.codepath.apps.mysimpletweets.models.Tweet;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.text.ParseException;
@@ -23,10 +27,15 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import cz.msebera.android.httpclient.Header;
+
 // taking the tweet objs. and turn them into list views displayed in the list
 public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
     private Context context;
+    private TwitterClient client = TwitterApplication.getRestClient();
+    private ImageView ivFave;
+    private boolean isFave;
 
     public TweetsArrayAdapter(Context context, List<Tweet> tweets) {
         super(context, android.R.layout.simple_list_item_1, tweets);
@@ -48,6 +57,8 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         // 3. find subviews to fill with data
         final ImageView ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
         final ImageView ivReply = (ImageView) convertView.findViewById(R.id.ivReply);
+        ivFave = (ImageView) convertView.findViewById(R.id.ivFave);
+        final ImageView ivRetweet = (ImageView) convertView.findViewById(R.id.ivRetweet);
         TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
         TextView tvBody = (TextView) convertView.findViewById(R.id.tvBody);
         TextView tvTimeAgo = (TextView) convertView.findViewById(R.id.tvTimeAgo);
@@ -58,16 +69,30 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         tvTimeAgo.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
         ivProfileImage.setImageResource(android.R.color.transparent); // clear out the image for a recycled view
         Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
+        // reply view
         Picasso.with(getContext()).load(R.drawable.ic_reply).into(ivReply);
+        // retweet view
+        Picasso.with(getContext()).load(R.drawable.ic_retweet).into(ivRetweet);
+        // if favorited
+        if (tweet.isFavorited()) {
+            Picasso.with(getContext()).load(R.drawable.ic_faved).into(ivFave); // make heart red
+        } else {
+            // favorite view
+            Picasso.with(getContext()).load(R.drawable.ic_fave).into(ivFave); // make heart gray
+        }
 
-        // 5. store user info in tag for access in profile activity and set onItemClickListener
+        // TODO: make hashtags and mentions blue ("hashtags": [],"user_mentions": [] JSONArrays)
+            // method that finds the string in the tweet.getBody() and sets that string segment to twitter blue
+
+        // 5. store various info in tag for access in other activities and set onItemClickListener
         ivProfileImage.setTag(R.string.image_screen_name_key, (tweet.getUser().getScreenName())); // tag holds an identifying id number and the user screen nam
         ivProfileImage.setTag(R.string.user, (tweet.getUser())); // send the user of this tweet
         ivProfileImage.setTag(R.string.uid, tweet.getUser().getUid()); // get the user id
-        // 5. cont. set tag on reply button
         ivReply.setTag(R.string.user_to_reply_to, tweet.getUser().getScreenName());
+        ivReply.setTag(R.string.tweet_id, tweet.getUid());
+        tvBody.setTag(R.string.details_tweet, tweet);
 
-
+        // Profile Click Listener
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,25 +110,126 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             }
         });
 
+        // Reply click Listener
         ivReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO: Reply w/ automatic @user
                 Intent i = new Intent(context, ComposeActivity.class);
                 // pass in the user screen name
-                // TODO: Consider also adding in reply to if != null
-                    // KEY --> "in_reply_to_user_id"
+                // TODO: Consider also adding in reply to
+                // KEY --> "in_reply_to_user_id"
                 i.putExtra("user_to_reply_to", "@" + ivReply.getTag(R.string.user_to_reply_to).toString());
-                i.putExtra("myIntent", ComposeActivity.REPLY_CODE);
+                // pass in tweet id to set in_reply_to_user_id
+                i.putExtra("tweet_id", (long) ivReply.getTag(R.string.tweet_id));
+                // to tell Compose Activity what intent started it
+                i.putExtra("myIntent", ComposeActivity.REPLY_REQUEST_CODE);
                 // start compose activity
                 context.startActivity(i);
-                // either:
-                    // add new activity that automatically draws the user and puts their @ in the text
-                // or:
-                    // use current activity and pull user in and add their @
             }
 
         });
+        // favorite click listener
+        ivFave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Favorite the tweet
+                // get the tweet id
+                long tweetID = tweet.getUid();
+
+                // favorite tweet
+                if (!tweet.isFavorited()) { // if it is not favorited
+                    client.faveStatus(tweetID, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            //Tweet tweet = new Tweet();
+                            //if (response != null) {
+                                //tweet = Tweet.fromJSON(response);
+                                tweet.setFavorited(true);
+                                isFave = true;
+                            //} // favorite call returns the favorited tweet
+//                      // change color to red
+
+                            Picasso.with(getContext()).load(R.drawable.ic_faved).into(ivFave);
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            // rate limit
+                            // can't favorite
+                            // etc.
+                        }
+                    });
+                }
+                // unfavorite it
+                if (tweet.isFavorited()) { // if tweet is favorited
+                    //TODO: Unfavorite the tweet if already favorited
+                    client.unFaveStatus(tweetID, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            //Tweet tweet = new Tweet();
+                            //if (response != null) {
+                                //tweet = Tweet.fromJSON(response);
+                            tweet.setFavorited(false);
+                            isFave = false;
+                          //  } // favorite call returns the favorited tweet
+//                      // change color to gray
+                            Picasso.with(getContext()).load(R.drawable.ic_fave).into(ivFave);
+                        }
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            // rate limit
+                            // can't favorite
+                            // etc.
+                            Log.d("DDD", "GFFF");
+                        }
+
+                    });
+                }
+
+            }
+        });
+        // retweet
+        ivRetweet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: send retweet request with id
+                long tweetID = tweet.getUid();
+                client.retweetStatus(tweetID, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) { //
+                        // make tweet
+                        Tweet tweet = new Tweet();
+                        if (response != null) {
+                            tweet = Tweet.fromJSON(response);
+                        }
+                        Picasso.with(getContext()).load(R.drawable.ic_retweeted).into(ivRetweet);
+
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        Log.d("failure", errorResponse.toString());
+                        // statusCode == duplicate tweet
+                        // this is a duplicate tweet
+                        // statusCode == no internet
+                        // no internet connection
+                    }
+                });
+            }
+        });
+
+        // Tweet/tweet body listener
+        tvBody.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, TweetDetailsActivity.class);
+                // send the tweet into the deatils activity
+                i.putExtra("tweet", Parcels.wrap(tweet));
+                context.startActivity(i);
+            }
+        });
+
         // 6. return the view to be inserted into the list
         return convertView;
     }
@@ -137,6 +263,10 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             relativeDate = relativeDate.replace(" hour ago", "h");
         } else if (relativeDate.contains(" hours ago")) {
             relativeDate = relativeDate.replace(" hours ago", "h");
+        } else if (relativeDate.contains(" days ago")) {
+            relativeDate = relativeDate.replace(" days ago", "d");
+        } else if (relativeDate.contains(" day ago")) {
+            relativeDate = relativeDate.replace(" day ago", "d");
         }
         // erase year based upon current year
         Calendar calendar = Calendar.getInstance();

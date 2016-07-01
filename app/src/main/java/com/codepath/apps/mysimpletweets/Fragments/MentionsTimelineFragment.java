@@ -49,6 +49,13 @@ public class MentionsTimelineFragment extends TweetsListFragment {
         });
     }
 
+/*    public void addNewTweet(Tweet tweet) {
+        //adds to the beginning of the array
+        //notifies data set changed
+        addTweetToAdapter(tweet);
+
+    }*/
+
     protected void fetchTimelineAsync() {
         Toast.makeText(getContext(), "you refreshed mentions!", Toast.LENGTH_SHORT).show();
         // Send the network request to fetch the updated data

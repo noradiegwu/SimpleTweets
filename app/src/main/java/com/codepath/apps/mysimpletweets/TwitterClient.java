@@ -45,6 +45,7 @@ public class TwitterClient extends OAuthBaseClient {
 	$ since_id = 1 (returns all tweets)
 	*/
 	public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+		// request url
 		String apiurl = getApiUrl("statuses/home_timeline.json");
 		// Specify params
 		RequestParams params = new RequestParams();
@@ -55,6 +56,7 @@ public class TwitterClient extends OAuthBaseClient {
 	}
 
 	public void getMentionsTimeline(AsyncHttpResponseHandler handler) {
+		// request url
 		String apiurl = getApiUrl("statuses/mentions_timeline.json");
 		// Specify params
 		RequestParams params = new RequestParams();
@@ -63,33 +65,85 @@ public class TwitterClient extends OAuthBaseClient {
 		getClient().get(apiurl, params, handler);
 	}
 
-    public void getUserTimeline(String screenName, AsyncHttpResponseHandler handler) {
-        String apiurl = getApiUrl("statuses/user_timeline.json");
-        RequestParams params = new RequestParams();
-        params.put("count", 25);
-        params.put("screen_name", screenName);
-        // Execute request
-        getClient().get(apiurl, params, handler);
+	public void getUserTimeline(String screenName, AsyncHttpResponseHandler handler) {
+		// request url
+		String apiurl = getApiUrl("statuses/user_timeline.json");
+		RequestParams params = new RequestParams();
+		params.put("count", 25);
+		params.put("screen_name", screenName);
+		// Execute request
+		getClient().get(apiurl, params, handler);
 
-    }
+	}
 
-    public void getUserInfo(AsyncHttpResponseHandler handler) {
-        String apiurl = getApiUrl("account/verify_credentials.json");
-        // Execute request
+	public void getUserInfo(AsyncHttpResponseHandler handler) {
+		// request url
+		String apiurl = getApiUrl("account/verify_credentials.json");
+		// Execute request
 		// if null, it uses verified user
-        getClient().get(apiurl, null, handler);
+		getClient().get(apiurl, null, handler);
 
-    }
+	}
 
 	//COMPOSE TWEET METHOD
-    // a "tweet" is a status
-    public void updateStatus(String status, JsonHttpResponseHandler handler) {
-        String apiurl = getApiUrl("statuses/update.json");
+	// a "tweet" is a status
+	public void updateStatus(String status, JsonHttpResponseHandler handler) {
+		// request url
+		String apiurl = getApiUrl("statuses/update.json");
+		RequestParams params = new RequestParams();
+		params.put("status", status);
+		//execute request
+		getClient().post(apiurl, params, handler);
+	}
+
+	//REPLY METHOD
+	// a "tweet" is a status
+	public void replyToStatus(String status, long inReplyToStatusID, JsonHttpResponseHandler handler) {
+		// request url
+		String apiurl = getApiUrl("statuses/update.json");
+		RequestParams params = new RequestParams();
+		params.put("status", status);
+		params.put("in_reply_to_status_id", inReplyToStatusID);
+		//execute request
+		getClient().post(apiurl, params, handler);
+	}
+
+	//FAVORITE METHOD
+	public void faveStatus(long statusID, JsonHttpResponseHandler handler) {
+		String apiurl = getApiUrl("favorites/create.json");
+		// params
+		RequestParams params = new RequestParams();
+		params.put("id", statusID);
+		// execute request
+		getClient().post(apiurl, params, handler);
+	}
+
+	//UNFAVE METHOD
+	public void unFaveStatus(long statusID, JsonHttpResponseHandler handler) {
+		// request url
+        String apiurl = getApiUrl("favorites/destroy.json");
+        // params
         RequestParams params = new RequestParams();
-        params.put("status", status);
-        //execute request
+        params.put("id", statusID);
+        // execute request
         getClient().post(apiurl, params, handler);
-    }
+	}
+
+	// FAVORITES COUNT METHOD
+		//TODO
+	//RETWEET METHOD
+	public void retweetStatus(long statusID, JsonHttpResponseHandler handler) {
+		// request url
+		String apiurl = getApiUrl("statuses/retweet/" + String.valueOf(statusID) + ".json");
+		// params
+		RequestParams params = new RequestParams();
+		params.put("id", statusID);
+		// execute request
+		getClient().post(apiurl, params, handler);
+	}
+
+	// RETWEEN COUNT METHOD
+		// TODO
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
 	 * 	  i.e getApiUrl("statuses/home_timeline.json");

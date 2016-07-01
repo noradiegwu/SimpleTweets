@@ -22,7 +22,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     HomeTimelineFragment homeTimelineFragment;
     MentionsTimelineFragment mentionsTimelineFragment;
-    int COMPOSE_REQUEST_CODE = 1001;
+    public static int COMPOSE_REQUEST_CODE = 1001;
     PagerSlidingTabStrip tabStrip;
     ViewPager viewPager;
     Tweet tweet;
@@ -80,7 +80,7 @@ public class TimelineActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //  inject the created tweet directly into the adapter for the timeline
-        if (requestCode == COMPOSE_REQUEST_CODE) {
+        if (requestCode == COMPOSE_REQUEST_CODE || requestCode == ComposeActivity.REPLY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // get the tweet
                 tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
@@ -89,8 +89,18 @@ public class TimelineActivity extends AppCompatActivity {
                 // pass to fragment
                 homeTimelineFragment.addNewTweet(tweet);
             }
+        } // if coming from a reply
+        /*else if (requestCode == ComposeActivity.REPLY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                // get the tweet
+                tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
+                // send tweet to timeline fragment to add to adapter
+                //get hometimeline fragment and call addTweet
+                // pass to fragment
+                mentionsTimelineFragment.addNewTweet(tweet);
             }
-        }
+        }*/
+    }
 
 
     // Return the order of the fragments int the view pager

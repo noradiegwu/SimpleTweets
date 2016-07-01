@@ -20,11 +20,25 @@ public class Tweet {
     // List out the attributes
     private String body;
     private String createdAt;
-    private long inReplyTo;
+    private boolean favorited;
+    private int retweetsCount;
+    private int likesCount;
+    private long inReplyToUserID;
     private long uid; // unique id for the tweet
     private User user; // store embedded user object
 
 
+    public boolean isFavorited() {
+        return favorited;
+    }
+
+    public int getRetweetsCount() {
+        return retweetsCount;
+    }
+
+    public int getLikesCount() {
+        return likesCount;
+    }
 
     public User getUser() { return user; }
 
@@ -40,6 +54,15 @@ public class Tweet {
         return uid;
     }
 
+    public long getInReplyToUserID() {
+        return inReplyToUserID;
+    }
+
+    public void setFavorited(boolean favorited) {
+        this.favorited = favorited;
+    }
+
+
     public Tweet() {}
 
     // Deerialize the json
@@ -52,7 +75,10 @@ public class Tweet {
             tweet.uid = jsonObject.getLong("id");
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
-            tweet.inReplyTo = jsonObject.getLong("in_reply_to_user_id");
+            tweet.inReplyToUserID = jsonObject.getLong("in_reply_to_user_id");
+            tweet.favorited = jsonObject.getBoolean("favorited");
+            tweet.retweetsCount = jsonObject.getInt("retweet_count");
+            tweet.likesCount = jsonObject.getInt("favorites_count");
         } catch (JSONException e) {
             e.printStackTrace();
         }

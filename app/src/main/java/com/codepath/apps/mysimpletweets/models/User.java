@@ -21,12 +21,12 @@ public class User {
 
     // list the attr.
     private String name;
-    private long uid;
     private String screenName;
     private String profileImageUrl;
     private String tagline;
     private int followersCount;
     private int followingsCount;
+    private long uid;
 
     public String getName() {
         return name;
