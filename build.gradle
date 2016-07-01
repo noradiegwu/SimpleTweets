@@ -9,6 +9,10 @@ buildscript {
     }
 }
 
+ext {
+    supportLibVersion = '23.4.0'  // variable that can be referenced to keep support libs consistent
+}
+
 allprojects {
     repositories {
         jcenter()
