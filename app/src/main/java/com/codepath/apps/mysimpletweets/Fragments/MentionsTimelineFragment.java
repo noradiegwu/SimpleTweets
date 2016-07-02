@@ -3,7 +3,6 @@ package com.codepath.apps.mysimpletweets.Fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
@@ -57,7 +56,7 @@ public class MentionsTimelineFragment extends TweetsListFragment {
     }*/
 
     protected void fetchTimelineAsync() {
-        Toast.makeText(getContext(), "you refreshed mentions!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "you refreshed mentions!", Toast.LENGTH_SHORT).show();
         // Send the network request to fetch the updated data
         // `client` here is an instance of Android Async HTTP
         // if i am refreshing in mentions timeline,

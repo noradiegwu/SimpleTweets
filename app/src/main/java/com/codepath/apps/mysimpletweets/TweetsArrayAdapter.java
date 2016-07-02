@@ -75,7 +75,11 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         // reply view
         Picasso.with(getContext()).load(R.drawable.ic_reply).into(ivReply);
         // retweet view
-        Picasso.with(getContext()).load(R.drawable.ic_retweet).into(ivRetweet);
+        if (tweet.isRetweeted()) {
+            Picasso.with(getContext()).load(R.drawable.ic_retweeted).into(ivRetweet);
+        } else {
+            Picasso.with(getContext()).load(R.drawable.ic_retweet).into(ivRetweet);
+        }
         // if favorited
         if (tweet.isFavorited()) {
             Picasso.with(getContext()).load(R.drawable.ic_faved).into(ivFave); // make heart red
