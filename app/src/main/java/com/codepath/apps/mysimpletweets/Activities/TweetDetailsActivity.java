@@ -42,7 +42,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tweet_details);
-        tweet = Parcels.unwrap(getIntent().getParcelableExtra("tweet")); // counts are 0, zero, zilch, zip, nada, jack shit
+        tweet = Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
         likes = getIntent().getIntExtra("likes", 0);
         isFaved = tweet.isFavorited(); // true or false dep on tweet liked or not
         isRetweeted = tweet.isRetweeted(); // retweeted?
@@ -75,7 +75,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
         tvBody.setLinkTextColor(TWTRBLUE);
         tvName.setText(tweet.getUser().getName());
         tvLikes.setText(String.valueOf(likes));
-        //tvLikes.setText(String.valueOf(tweet.getLikesCount())); // both are 0, zero, zilch, zip, nada, jack shit
+        //tvLikes.setText(String.valueOf(tweet.getLikesCount()));
         tvRetweets.setText(String.valueOf(tweet.getRetweetsCount()));
         tvUserName.setText("@" + tweet.getUser().getScreenName());
         Picasso.with(this).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
