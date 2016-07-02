@@ -53,7 +53,6 @@ public class ComposeActivity extends AppCompatActivity {
         tvCharacterCount = (TextView) findViewById(R.id.tvCharacterCount);
         btnTweet = (Button) findViewById(R.id.btnTweet);
         client = TwitterApplication.getRestClient();
-
         // sets an intent code to use to tell what intent started this activity: (REPLY or COMPOSE)
         myIntent = getIntent().getIntExtra("myIntent", 0);
 

@@ -42,6 +42,7 @@ public class Tweet {
         return retweetsCount;
     }
 
+
     public int getLikesCount() {
         return likesCount;
     }

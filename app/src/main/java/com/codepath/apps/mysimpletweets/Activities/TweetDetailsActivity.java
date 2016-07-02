@@ -48,7 +48,6 @@ public class TweetDetailsActivity extends AppCompatActivity {
         isRetweeted = tweet.isRetweeted(); // retweeted?
         areFollowing = tweet.getUser().isFollowing();
         client = TwitterApplication.getRestClient();
-
         // toolbar
         // Find the toolbar view inside the activity layout
         Toolbar toolbar = (Toolbar) findViewById(R.id.tbTimeline);

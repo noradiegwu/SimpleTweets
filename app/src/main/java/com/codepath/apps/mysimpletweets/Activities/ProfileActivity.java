@@ -85,6 +85,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
+
     private void populateProfileHeader(User user) {
         //find views
         TextView tvFullName = (TextView) findViewById(R.id.tvFullName);

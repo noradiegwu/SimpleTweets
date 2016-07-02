@@ -64,6 +64,7 @@ public class User {
 
     public User() {}
 
+
     // deserialize into user
     public static User fromJSON(JSONObject json) {
         User u = new User();
