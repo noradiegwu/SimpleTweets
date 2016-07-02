@@ -28,6 +28,12 @@ public class User {
     private int followingsCount;
     private long uid;
 
+    public boolean isFollowing() {
+        return following;
+    }
+
+    private boolean following;
+
     public String getName() {
         return name;
     }
@@ -65,12 +71,13 @@ public class User {
 
         try {
             u.name = json.getString("name");
-            u.uid = json.getLong("id");
-            u.screenName = json.getString("screen_name");
-            u.profileImageUrl = json.getString("profile_image_url");
-            u.tagline = json.getString("description");
-            u.followersCount = json.getInt("followers_count");
-            u.followingsCount = json.getInt("friends_count");
+            u.uid = json.optLong("id");
+            u.screenName = json.optString("screen_name");
+            u.profileImageUrl = json.optString("profile_image_url");
+            u.tagline = json.optString("description");
+            u.followersCount = json.optInt("followers_count");
+            u.followingsCount = json.optInt("friends_count");
+            u.following = json.optBoolean("following");
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -142,6 +142,17 @@ public class TwitterClient extends OAuthBaseClient {
 		getClient().post(apiurl, params, handler);
 	}
 
+	//UNRETWEET
+	public void unRetweetStatus(long statusID, JsonHttpResponseHandler handler) {
+		// request url
+		String apiurl = getApiUrl("statuses/retweet/" + String.valueOf(statusID) + ".json");
+		// params
+		RequestParams params = new RequestParams();
+		params.put("id", statusID);
+		// execute request
+		getClient().post(apiurl, params, handler);
+	}
+
 	// RETWEEN COUNT METHOD
 		// TODO
 

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.apps.mysimpletweets.R;
@@ -18,6 +19,7 @@ import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 import org.parceler.Parcels;
@@ -39,11 +41,14 @@ public class ComposeActivity extends AppCompatActivity {
     EditText etTweet;
     Button btnTweet;
     int myIntent;
+    ImageView ivMe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
+        final ImageView ivMe = (ImageView) findViewById(R.id.ivMe);
+        Picasso.with(this).load("https://pbs.twimg.com/profile_images/721496192400678912/_Q9BInMY.jpg").into(ivMe);
         etTweet = (EditText) findViewById(R.id.etTweet);
         tvCharacterCount = (TextView) findViewById(R.id.tvCharacterCount);
         btnTweet = (Button) findViewById(R.id.btnTweet);

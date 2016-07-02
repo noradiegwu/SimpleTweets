@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.apps.mysimpletweets.Activities.ComposeActivity;
 import com.codepath.apps.mysimpletweets.Activities.ProfileActivity;
@@ -35,8 +34,6 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
     private Context context;
     private TwitterClient client = TwitterApplication.getRestClient();
-    private ImageView ivFave;
-    private boolean isFave;
 
     public TweetsArrayAdapter(Context context, List<Tweet> tweets) {
         super(context, android.R.layout.simple_list_item_1, tweets);
@@ -58,13 +55,17 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         // 3. find subviews to fill with data
         final ImageView ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
         final ImageView ivReply = (ImageView) convertView.findViewById(R.id.ivReply);
-        ivFave = (ImageView) convertView.findViewById(R.id.ivFave);
+        final ImageView ivFave = (ImageView) convertView.findViewById(R.id.ivFave);
         final ImageView ivRetweet = (ImageView) convertView.findViewById(R.id.ivRetweet);
         TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
         TextView tvBody = (TextView) convertView.findViewById(R.id.tvBody);
         TextView tvTimeAgo = (TextView) convertView.findViewById(R.id.tvTimeAgo);
+        TextView txt = (TextView) convertView.findViewById(R.id.textView); // likes num
+        TextView tvRNum = (TextView) convertView.findViewById(R.id.tvRNum); //retweet num
 
         // 4. populate data into the subviews
+        txt.setText(String.valueOf(tweet.getLikesCount()));
+        tvRNum.setText(String.valueOf(tweet.getRetweetsCount()));
         tvUserName.setText(tweet.getUser().getScreenName());
         tvBody.setText(tweet.getBody());
         tvBody.setLinkTextColor(TweetDetailsActivity.TWTRBLUE); // twitter blue for pretties
@@ -78,9 +79,11 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         // if favorited
         if (tweet.isFavorited()) {
             Picasso.with(getContext()).load(R.drawable.ic_faved).into(ivFave); // make heart red
+            ivFave.setSelected(true);
         } else {
             // favorite view
             Picasso.with(getContext()).load(R.drawable.ic_fave).into(ivFave); // make heart gray
+            ivFave.setSelected(false);
         }
 
         // TODO: make hashtags and mentions blue ("hashtags": [],"user_mentions": [] JSONArrays)
@@ -135,22 +138,22 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         ivFave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Favorite the tweet
                 // change color to red
-                Picasso.with(getContext()).load(R.drawable.ic_faved).into(ivFave);
-                Toast.makeText(getContext(), String.valueOf(tweet.isFavorited()), Toast.LENGTH_SHORT).show();
+
+//                Toast.makeText(getContext(), String.valueOf(tweet.isFavorited()), Toast.LENGTH_SHORT).show();
                 // get the tweet id
                 long tweetID = tweet.getUid();
 
                 // favorite tweet
-                if (!tweet.isFavorited()) { // if it is not favorited
+                if (!ivFave.isSelected()) { // if it is not favorited
                     client.faveStatus(tweetID, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             // change color to red
                             Picasso.with(getContext()).load(R.drawable.ic_faved).into(ivFave);
                             tweet.setFavorited(true);
-                            isFave = true;
+                            ivFave.setSelected(true);
+
 
 
                         }
@@ -164,10 +167,9 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
                     });
                 }
                 // unfavorite it
-                if (tweet.isFavorited()) { // if tweet is favorited
-                    //TODO: Unfavorite the tweet if already favorited
+                if (ivFave.isSelected()) { // if tweet is favorited
                     // change color to gray
-                    Picasso.with(getContext()).load(R.drawable.ic_fave).into(ivFave);
+
                     client.unFaveStatus(tweetID, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -175,7 +177,8 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
                             //if (response != null) {
                                 //tweet = Tweet.fromJSON(response);
                             tweet.setFavorited(false);
-                            isFave = false;
+                            Picasso.with(getContext()).load(R.drawable.ic_fave).into(ivFave);
+                            ivFave.setSelected(false);
                           //  } // favorite call returns the favorited tweet
 //                      // change color to gray
                             Picasso.with(getContext()).load(R.drawable.ic_fave).into(ivFave);
@@ -228,7 +231,9 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             public void onClick(View v) {
                 Intent i = new Intent(context, TweetDetailsActivity.class);
                 // send the tweet into the deatils activity
+                int likes = tweet.getLikesCount();
                 i.putExtra("tweet", Parcels.wrap(tweet));
+                i.putExtra("likes", likes);
                 context.startActivity(i);
             }
         });

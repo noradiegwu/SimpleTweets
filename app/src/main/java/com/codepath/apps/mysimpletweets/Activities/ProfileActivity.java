@@ -3,6 +3,7 @@ package com.codepath.apps.mysimpletweets.Activities;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +32,12 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        // toolbar
+        // Find the toolbar view inside the activity layout
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tbTimeline);
+        // Sets the Toolbar to act as the ActionBar for this Activity window.
+        // Make sure the toolbar exists in the activity and is not null
+        setSupportActionBar(toolbar);
         user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
         myIntent = getIntent().getIntExtra("myIntent", 0);
         if (user != null) {
@@ -82,14 +89,14 @@ public class ProfileActivity extends AppCompatActivity {
         //find views
         TextView tvFullName = (TextView) findViewById(R.id.tvFullName);
         TextView tvTagline = (TextView) findViewById(R.id.tvTagline);
-        TextView tvFollowers = (TextView) findViewById(R.id.tvFollowers);
-        TextView tvFollowing = (TextView) findViewById(R.id.tvFollowing);
+        TextView tvFollowers = (TextView) findViewById(R.id.tvFollowersNum);
+        TextView tvFollowing = (TextView) findViewById(R.id.tvFollowingNum);
         ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
         // set views
         tvFullName.setText(user.getName());
         tvTagline.setText(user.getTagline());
-        tvFollowers.setText(user.getFollowersCount() + getString(R.string.followers));
-        tvFollowing.setText(user.getFollowingsCount() + getString(R.string.following));
+        tvFollowers.setText(String.valueOf(user.getFollowersCount()));
+        tvFollowing.setText(String.valueOf(user.getFollowingsCount()));
         Picasso.with(this).load(user.getProfileImageUrl()).into(ivProfileImage);
     }
 

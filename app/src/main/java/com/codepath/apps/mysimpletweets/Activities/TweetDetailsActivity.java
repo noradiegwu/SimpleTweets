@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
@@ -28,7 +30,10 @@ public class TweetDetailsActivity extends AppCompatActivity {
     private ImageView ivReply;
     private ImageView ivRetweet;
     private boolean isFaved;
+    private boolean isRetweeted;
+    private boolean areFollowing;
     private TwitterClient client;
+    int likes;
     @ColorInt
     public static int TWTRBLUE = 0xff55acee;
 
@@ -38,11 +43,22 @@ public class TweetDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tweet_details);
         tweet = Parcels.unwrap(getIntent().getParcelableExtra("tweet")); // counts are 0, zero, zilch, zip, nada, jack shit
+        likes = getIntent().getIntExtra("likes", 0);
         isFaved = tweet.isFavorited(); // true or false dep on tweet liked or not
+        isRetweeted = tweet.isRetweeted(); // retweeted?
+        areFollowing = tweet.getUser().isFollowing();
         client = TwitterApplication.getRestClient();
-        // get views
 
+        // toolbar
+        // Find the toolbar view inside the activity layout
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tbTimeline);
+        // Sets the Toolbar to act as the ActionBar for this Activity window.
+        // Make sure the toolbar exists in the activity and is not null
+        setSupportActionBar(toolbar);
+        // get views
+        getSupportActionBar().setTitle("@" + tweet.getUser().getScreenName());
         ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
+        ImageView ivFollow = (ImageView) findViewById(R.id.ivFollow);
         ivRetweet = (ImageView) findViewById(R.id.ivRetweetInDetails);
         ivReply = (ImageView) findViewById(R.id.ivReplyInDetails);
         ivLikeIt = (ImageView) findViewById(R.id.ivFaveInDetails);
@@ -59,16 +75,21 @@ public class TweetDetailsActivity extends AppCompatActivity {
         tvBody.setText(tweet.getBody());
         tvBody.setLinkTextColor(TWTRBLUE);
         tvName.setText(tweet.getUser().getName());
-        tvLikes.setText(String.valueOf(tweet.getLikesCount())); // both are 0, zero, zilch, zip, nada, jack shit
+        tvLikes.setText(String.valueOf(likes));
+        //tvLikes.setText(String.valueOf(tweet.getLikesCount())); // both are 0, zero, zilch, zip, nada, jack shit
         tvRetweets.setText(String.valueOf(tweet.getRetweetsCount()));
         tvUserName.setText("@" + tweet.getUser().getScreenName());
         Picasso.with(this).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
-        if (!isFaved) {
+        if (ivLikeIt.isSelected()) {
             Picasso.with(this).load(R.drawable.ic_fave).into(ivLikeIt);
-        } else if (isFaved) {
+        } else if (!ivLikeIt.isSelected()) {
             Picasso.with(this).load(R.drawable.ic_faved).into(ivLikeIt);
         }
-        Picasso.with(this).load(R.drawable.ic_retweet).into(ivRetweet);
+        if (!isRetweeted) {
+            Picasso.with(this).load(R.drawable.ic_retweet).into(ivRetweet);
+        } else if (isRetweeted) {
+            Picasso.with(this).load(R.drawable.ic_retweeted).into(ivRetweet);
+        }
         Picasso.with(this).load(R.drawable.ic_reply).into(ivReply);
 
         // TODO: make hashtags and mentions blue ("hashtags": [],"user_mentions": [] JSONArrays)
@@ -122,7 +143,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                     //if (response != null) {
                     //tweet = Tweet.fromJSON(response);
                     tweet.setFavorited(true);
-                    isFaved = true;
+                    ivLikeIt.setSelected(true);
                     //} // favorite call returns the favorited tweet
 
 //                      // change color to red
@@ -147,7 +168,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                     //if (response != null) {
                     //tweet = Tweet.fromJSON(response);
                     tweet.setFavorited(false);
-                    isFaved = false;
+                    ivLikeIt.setSelected(false);
                     //  } // favorite call returns the favorited tweet
 //                      // change color to gray
                     Picasso.with(getBaseContext()).load(R.drawable.ic_fave).into(ivLikeIt);
@@ -177,6 +198,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                 if (response != null) {
                     tweet = Tweet.fromJSON(response);
                 }
+                ivRetweet.setSelected(true);
                 Picasso.with(getBaseContext()).load(R.drawable.ic_retweeted).into(ivRetweet);
 
             }
@@ -192,4 +214,23 @@ public class TweetDetailsActivity extends AppCompatActivity {
         });
 
     }
+
+
+    public void onFollowClick(View view) {
+        long tweetID = tweet.getUid();
+        String message = ("You unfollowed" + " @" + tweet.getUser().getScreenName().toString());
+        Toast.makeText(TweetDetailsActivity.this, message, Toast.LENGTH_SHORT).show();
+        client.unfollowUser(tweetID, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Toast.makeText(TweetDetailsActivity.this, "hi", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+
+            }
+        });
+    }
+
 }
