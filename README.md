@@ -1,8 +1,8 @@
-# Project 3 - *Name of App Here*
+# Project 3 - *Simple Tweets*
 
-**Name of your app** is an android app that allows a user to view home and mentions timelines, view user profiles with user timelines, as well as compose and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
+**Simple Tweets** is an android app that allows a user to view home and mentions timelines, view user profiles with user timelines, as well as compose and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
 
-Time spent: **X** hours spent in total
+Time spent: **33** hours spent in total
 
 ## User Stories
 
@@ -57,6 +57,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ## Notes
 
 Describe any challenges encountered while building the app.
+
+Parsing the data from the API and debugging obscure parsing errors proved to be the most challenging part of building this application.
 
 ## Open-source libraries used
 
