@@ -50,7 +50,7 @@ The following **additional** features are implemented:
 Here's a walkthrough of implemented user stories:
 
 <img src='https://github.com/noradiegwu/SimpleTweets/blob/master/simple____tweets.gif'  title='Video Walkthrough' width='' alt='Video Walkthrough' />
-<img src='https://github.com/noradiegwu/SimpleTweets/blob/master/click_tweet_link.gif'/>
+<img src='https://github.com/noradiegwu/SimpleTweets/blob/master/click_link_in_tweet.gif'/>
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
