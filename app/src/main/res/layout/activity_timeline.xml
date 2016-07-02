@@ -15,9 +15,19 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".Activities.TimelineActivity">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tbTimeline"
+            android:minHeight="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:titleTextColor="@android:color/white"
+            android:background="@color/twitter_blue">
+        </android.support.v7.widget.Toolbar>
+
 
         <com.astuetz.PagerSlidingTabStrip
             android:id="@+id/tabs"
+            android:layout_below="@+id/tbTimeline"
             app:pstsShouldExpand="true"
             app:pstsTextAllCaps="true"
             android:layout_width="match_parent"

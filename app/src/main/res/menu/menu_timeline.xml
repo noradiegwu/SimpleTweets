@@ -2,16 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <item
-        android:id="@+id/miCompose"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_compose"
-        android:title="@string/compose_tweet"
-        android:onClick="onComposeView">
-
-    </item>
-
     <item
         android:id="@+id/miProfile"
         app:showAsAction="ifRoom"

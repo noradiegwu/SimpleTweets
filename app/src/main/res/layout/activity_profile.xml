@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Activities.ProfileActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tbTimeline"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/white"
+        android:background="@color/twitter_blue">
+    </android.support.v7.widget.Toolbar>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -53,21 +65,48 @@
         android:layout_below="@+id/rlUserHeader"
         android:padding="10dp"
         android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/custom_border">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="# Followers"
-            android:id="@+id/tvFollowers"
+            android:text="@string/hashtag"
+            android:id="@+id/tvFollowingNum"
+            android:paddingEnd="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Following"
+            android:id="@+id/tvFollowing"
             android:paddingEnd="5dp"
             android:paddingRight="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="# Following"
-            android:id="@+id/tvFollowing"
+            android:text="@string/hashtag"
+            android:id="@+id/tvFollowersNum"
+            android:paddingEnd="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Followers"
+            android:id="@+id/tvFollowers"
             android:paddingStart="5dp"
             android:paddingLeft="5dp" />
 
@@ -84,4 +123,4 @@
             android:id="@+id/flContainer"></FrameLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

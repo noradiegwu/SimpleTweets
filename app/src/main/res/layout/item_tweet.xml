@@ -76,5 +76,25 @@
         android:layout_toRightOf="@+id/ivFave"
         android:layout_marginLeft="70dp"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/textView"
+        android:layout_alignBottom="@+id/ivFave"
+        android:layout_toRightOf="@+id/ivFave"
+        android:layout_toEndOf="@+id/ivFave" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/tvRNum"
+        android:layout_alignBottom="@+id/ivRetweet"
+        android:layout_toRightOf="@+id/ivRetweet"
+        android:layout_toEndOf="@+id/ivRetweet" />
+
 
 </RelativeLayout>

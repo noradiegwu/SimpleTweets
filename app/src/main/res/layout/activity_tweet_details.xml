@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/main_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.codepath.apps.mysimpletweets.Activities.TweetDetailsActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tbTimeline"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/white"
+        android:background="@color/twitter_blue">
+    </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -82,7 +99,8 @@
             android:layout_above="@+id/tvBody"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/folow_button_background"/>
+            android:background="@drawable/folow_button_background"
+            android:onClick="onFollowClick" />
     </RelativeLayout>
 
     <LinearLayout
@@ -219,3 +237,5 @@
     </LinearLayout>
 
 </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
